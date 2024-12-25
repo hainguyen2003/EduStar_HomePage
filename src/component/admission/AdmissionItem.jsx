@@ -14,7 +14,7 @@ function AdmissionItem({ params }) {
 
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: admissionItem?.title }}></div>
+      <div dangerouslySetInnerHTML={{ __html: admissionItem?.admissionForm }}></div>
     </div>
   );
 }
