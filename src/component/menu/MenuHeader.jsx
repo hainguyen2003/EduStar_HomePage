@@ -8,14 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import RegisterAccountModal from "../modal/RegisterAccountModal";
 import Cookies from "js-cookie";
 import Link from "next/link";
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
+
 const MenuHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -24,6 +17,7 @@ const MenuHeader = () => {
   const [id, setId] = useState(null);
 
   const { data, dispatch } = useContext(AppContext);
+
   const showModalRegisterAcc = () => {
     dispatch({ type: "modalRegisterAccOpen" });
   };
@@ -83,8 +77,8 @@ const MenuHeader = () => {
     },
     {
       label: (
-        <Link href={`https://mocktest.edustar.com.vn/?jwt=${jwt}&id=${id}`}>
-          THI THỬ{" "}
+        <Link href={`http://localhost:8080/mocktest/exam/?jwt=${jwt}&id=${id}`}>
+          THI THỬ
         </Link>
       ),
       key: "2",
@@ -97,7 +91,7 @@ const MenuHeader = () => {
       },
     },
     {
-      label: "KHÓA HỌC",
+      label: "ĐÀO TẠO ANH NGỮ",
       children: [
         {
           label: <Link href="/vstep">Luyện thi VSTEP</Link>,
@@ -153,13 +147,66 @@ const MenuHeader = () => {
             },
           ],
         },
-
         {
           label: "Anh Ngữ Học Thuật",
           key: "12",
           onClick: () => {
             router.push("/englishacademic");
           },
+        },
+      ],
+    },
+    {
+      label: "ĐÀO TẠO TIN HỌC",
+      children: [
+        {
+          label: (
+            <Link href="/oit0">CHỨNG CHỈ ỨNG DỤNG CNTT CƠ BẢN VÀ NÂNG CAO</Link>
+          ),
+          key: "16",
+          onClick: () => {
+            router.push("/oit0/luyen-thi-i1");
+          },
+        },
+        {
+          label: <Link href="/oit1">CHỨNG CHỈ TIN HỌC QUỐC TẾ ICDL</Link>,
+          key: "17",
+          children: [
+            {
+              label: "CHỨNG CHỈ TIN HỌC QUỐC TẾ",
+              key: "18",
+              onClick: () => {
+                router.push("/oit1/icdl");
+              },
+            },
+            {
+              label: "CHỨNG CHỈ TIN HỌC QTMOS",
+              key: "19",
+              onClick: () => {
+                router.push("/oit1/icdl11");
+              },
+            },
+          ],
+        },
+        {
+          label: <Link href="/itce">Chứng chỉ Tin học</Link>,
+          key: "20",
+          children: [
+            {
+              label: "Chứng chỉ MOS ",
+              key: "21",
+              onClick: () => {
+                router.push("/itce/mos");
+              },
+            },
+            {
+              label: "Chứng chỉ IC3",
+              key: "22",
+              onClick: () => {
+                router.push("/itce/ic3");
+              },
+            },
+          ],
         },
       ],
     },
@@ -184,16 +231,12 @@ const MenuHeader = () => {
         router.push("/new");
       },
     },
-
     {
       label: "ĐĂNG KÝ TƯ VẤN",
       key: "sub6",
     },
-    // {
-    //   label: "ĐĂNG KÝ khóa học",
-    //   key: "sub7",
-    // },
   ];
+
   useEffect(() => {
     setJwt(Cookies.get("jwt"));
     setId(Cookies.get("id"));
@@ -204,21 +247,21 @@ const MenuHeader = () => {
     <>
       <Menu
         onClick={(e) => {
-          if (e.key == "sub6") {
+          if (e.key === "sub6") {
             showModalRegisterAcc();
           }
         }}
-        className="font-[500] items-center w-[70vw] phone:hidden tablet:hidden desktop:flex laptop:hidden  "
+        className="font-[500] items-center w-[70vw] phone:hidden tablet:hidden desktop:flex laptop:hidden"
         mode="horizontal"
         items={items}
-        defaultSelectedKeys={checkPathname}
+        defaultSelectedKeys={checkPathname()}
       />
       <Dropdown
         menu={{
           items,
         }}
         trigger={["click"]}
-        className="block phone:block tablet:block phone:absolute phone:left-[20px] phone:bottom-[13px] desktop:hidden  "
+        className="block phone:block tablet:block phone:absolute phone:left-[20px] phone:bottom-[13px] desktop:hidden"
       >
         <MenuOutlined className="" onClick={(e) => e.preventDefault()} />
       </Dropdown>
